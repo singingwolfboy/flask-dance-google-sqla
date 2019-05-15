@@ -1,0 +1,10 @@
+flask>=1.0
+flask-dance[sqla]>=1.4.0
+flask-sqlalchemy
+flask-login
+blinker
+
+# only if you're using a Procfile, such as on Heroku
+gunicorn
+# only if you're using PostgreSQL, such as on Heroku
+psycopg2
