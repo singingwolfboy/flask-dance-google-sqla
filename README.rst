@@ -71,6 +71,9 @@ variables:
   you got from Google.
 * ``GOOGLE_OAUTH_CLIENT_SECRET``: set this to the client secret
   you got from Google.
+* ``OAUTHLIB_RELAX_TOKEN_SCOPE``: set this to ``true``. This indicates that
+  it's OK for Google to return different OAuth scopes than requested; Google
+  does that sometimes
 * ``OAUTHLIB_INSECURE_TRANSPORT``: set this to ``true``. This indicates that
   you're doing local testing, and it's OK to use HTTP instead of HTTPS for
   OAuth. You should only do this for local testing.
