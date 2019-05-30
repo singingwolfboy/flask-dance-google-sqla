@@ -19,18 +19,16 @@ Fixtures
 --------
 
 The ``conftest.py`` file contains the `Pytest fixtures`_ that
-the tests use. We want to use the ``betamax_record_flask_dance``
-fixture `provided by Flask-Dance
-<https://flask-dance.readthedocs.io/en/latest/testing.html#module-flask_dance.fixtures.pytest>`_,
-so we define an ``app`` fixture and a ``flask_dance_sessions``
-fixture. We also define a ``google_authorized`` fixture,
-which will use a ``MemoryStorage`` object to tell Flask-Dance
-that the user is already authorized with Google.
+the tests use. We want to use the ``db_session``
+fixture provided by `pytest-flask-sqlalchemy
+<https://github.com/jeancochrane/pytest-flask-sqlalchemy>`_,
+so we define a ``_db`` fixture and set ``mocked-sessions``
+in the ``pytest.ini`` file.
 
 Cassettes
 ---------
 
-The ``cassettes`` directory contains recorded HTTP sessions,
+The ``cassettes`` directory contains HTTP sessions recorded bt Betamax_,
 which the automated tests can replay. To record new HTTP sessions,
 delete the files in that directory, and then run the tests again.
 

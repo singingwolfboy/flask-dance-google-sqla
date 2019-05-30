@@ -5,13 +5,11 @@ from pathlib import Path
 import pytest
 from betamax import Betamax
 from flask.testing import FlaskClient
-from flask_dance.consumer.storage import MemoryStorage
-from flask_dance.contrib.google import google
 
 toplevel = Path(__file__).parent.parent
 sys.path.insert(0, str(toplevel))
 from app import app as flask_app
-from app.oauth import blueprint
+from app.oauth import blueprint as _blueprint
 from app.models import db, User, OAuth
 
 
@@ -41,14 +39,19 @@ class FlaskLoginClient(FlaskClient):
 
 
 @pytest.fixture
-def google_authorized(monkeypatch):
-    """
-    Monkeypatch the GitHub Flask-Dance blueprint so that the
-    OAuth token is always set.
-    """
-    storage = MemoryStorage({"access_token": GOOGLE_ACCESS_TOKEN})
-    monkeypatch.setattr(blueprint, "storage", storage)
-    return storage
+def google_access_token():
+    return GOOGLE_ACCESS_TOKEN
+
+
+@pytest.fixture
+def blueprint(request):
+    token = {"access_token": GOOGLE_ACCESS_TOKEN}
+    # avoid "Cannot get OAuth token without an associated user" error
+    _blueprint.session.token = token
+    # wrap session with Betamax
+    recorder = Betamax(_blueprint.session)
+    with recorder.use_cassette(request.node.name):
+        yield _blueprint
 
 
 @pytest.fixture(scope="session")
@@ -59,19 +62,14 @@ def app():
 
 @pytest.fixture(scope="session")
 def _db(app):
+    """
+    Necessary to use the ``db_session`` fixture
+    from pytest-flask-sqlalchemy
+    """
     with app.app_context():
         db.create_all()
         yield db
         db.drop_all()
-
-
-@pytest.fixture
-def flask_dance_sessions():
-    """
-    Necessary to use the ``betamax_record_flask_dance`` fixture
-    from Flask-Dance
-    """
-    return google
 
 
 @pytest.fixture
