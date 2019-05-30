@@ -1,0 +1,3 @@
+pytest
+betamax
+pytest-flask-sqlalchemy
