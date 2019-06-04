@@ -67,6 +67,8 @@ variables:
 
 * ``FLASK_APP``: set this to ``app``. Since this is the default value, you
   can leave it unset it you prefer.
+* ``FLASK_SECRET_KEY``: set this to a random string. This is used for
+  signing the Flask session cookie.
 * ``GOOGLE_OAUTH_CLIENT_ID``: set this to the client ID
   you got from Google.
 * ``GOOGLE_OAUTH_CLIENT_SECRET``: set this to the client secret
