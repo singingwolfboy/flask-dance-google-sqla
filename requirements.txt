@@ -1,7 +1,7 @@
 flask>=1.0
 flask-dance[sqla]>=1.4.0
 flask-sqlalchemy
-flask-login
+flask-login>=0.5.0
 blinker
 
 # only if you're using a Procfile, such as on Heroku

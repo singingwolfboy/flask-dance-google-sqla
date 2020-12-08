@@ -8,6 +8,7 @@ except ImportError:
 import pytest
 from betamax import Betamax
 from flask.testing import FlaskClient
+from flask_login import FlaskLoginClient
 
 toplevel = Path(__file__).parent.parent
 sys.path.insert(0, str(toplevel))
@@ -21,24 +22,6 @@ GOOGLE_ACCESS_TOKEN = os.environ.get("GOOGLE_OAUTH_ACCESS_TOKEN", "fake-token")
 with Betamax.configure() as config:
     config.cassette_library_dir = str(toplevel / "tests" / "cassettes")
     config.define_cassette_placeholder("<AUTH_TOKEN>", GOOGLE_ACCESS_TOKEN)
-
-
-class FlaskLoginClient(FlaskClient):
-    """
-    A Flask test client that knows how to log in users
-    using the Flask-Login extension.
-    """
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop("user", None)
-        fresh = kwargs.pop("fresh_login", True)
-
-        super(FlaskLoginClient, self).__init__(*args, **kwargs)
-
-        if user:
-            with self.session_transaction() as sess:
-                sess["user_id"] = user.id
-                sess["_fresh"] = fresh
 
 
 @pytest.fixture
