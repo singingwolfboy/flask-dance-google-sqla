@@ -14,7 +14,7 @@ def test_oauth_create_user(app, blueprint, google_access_token):
 
     with app.test_request_context("/login/google/authorized"):
         returned = google_logged_in(blueprint, token)
-        logged_in_uid = flask.session.get("user_id")
+        logged_in_uid = flask.session.get("_user_id")
 
     assert returned is False
     assert User.query.count() == 1
@@ -45,7 +45,7 @@ def test_oauth_login_user(db_session, app, blueprint, google_access_token):
 
     with app.test_request_context("/login/google/authorized"):
         returned = google_logged_in(blueprint, token)
-        logged_in_uid = flask.session.get("user_id")
+        logged_in_uid = flask.session.get("_user_id")
 
     assert returned is False
     # counts are unchanged
