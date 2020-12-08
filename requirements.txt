@@ -4,8 +4,6 @@ flask-sqlalchemy
 flask-login>=0.5.0
 blinker
 
-sqlalchemy_utils==0.36.5; python_version < '3.4'
-
 # only if you're using a Procfile, such as on Heroku
 gunicorn
 # only if you're using PostgreSQL, such as on Heroku
