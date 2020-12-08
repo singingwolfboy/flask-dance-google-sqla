@@ -1,6 +1,9 @@
 import os
 import sys
-from pathlib import Path
+try:
+    from pathlib import Path
+except ImportError:
+    from pathlib2 import Path
 
 import pytest
 from betamax import Betamax
@@ -16,7 +19,7 @@ from app.models import db, User, OAuth
 GOOGLE_ACCESS_TOKEN = os.environ.get("GOOGLE_OAUTH_ACCESS_TOKEN", "fake-token")
 
 with Betamax.configure() as config:
-    config.cassette_library_dir = toplevel / "tests" / "cassettes"
+    config.cassette_library_dir = str(toplevel / "tests" / "cassettes")
     config.define_cassette_placeholder("<AUTH_TOKEN>", GOOGLE_ACCESS_TOKEN)
 
 
